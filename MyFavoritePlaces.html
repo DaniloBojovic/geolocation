@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+	<title>Show my favorite places</title>
+	<style>
+		h1{
+			text-align: center;
+		}
+		#map0 {
+			height: 500px;
+			width: 33%;
+			float:left;
+			top: 20%;
+			visibility: hidden;
+		}
+		#map1 {
+			height: 500px;
+			width: 33%;
+			float:left;
+			top: 20%;
+			visibility: hidden;
+		}
+		#map2 {
+			height: 500px;
+			width: 33%;
+			float:left;
+			top: 20%;
+			visibility: hidden;
+		}
+		#button{
+			text-align: center;
+			margin-right: 15px;
+		}
+		.btn-space {
+			margin-right: 15px;
+		}
+	</style>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+	<h1 class="bg-info"><b>Show my favorite places</b></h1>
+	<div id="button">
+	<button onclick="prikazi('mapa',0)" type="button" class="btn btn-info btn-lg btn-space" >
+		<span class="glyphicon glyphicon-education"></span> My faculty</button>  
+    </a>
+	<button onclick="prikazi('mapa',1)" type="button" class="btn btn-info btn-lg btn-space">
+		<span class="glyphicon glyphicon-home"></span> My home</button>
+    </a>
+	<button onclick="prikazi('mapa',2)" type="button" class="btn btn-info btn-lg btn-space">
+		<span class="glyphicon glyphicon-cutlery"></span> My favorite restaurant</button>
+    </a>
+	</div>
+	<br />
+	<div id="map0"></div>
+	<div id="map1"></div>
+	<div id="map2"></div>
+<script>
+	function prikazi(mapa,num){
+		document.getElementById("map0").style.visibility= 'hidden';
+		document.getElementById("map1").style.visibility= 'hidden';
+		document.getElementById("map2").style.visibility= 'hidden';
+		var object = document.getElementById("map" + num + "");
+		if(object.style.visibility == 'visible'){
+			document.getElementById("map" + num + "").style.visibility = 'hidden';
+		}
+		else{
+			document.getElementById("map" + num + "").style.visibility = 'visible';
+		}
+	}
+	function myMap(){	
+		var myFax = {lat: 45.245871, lng: 19.851004};
+		var myHome = {lat: 45.257553, lng: 19.804643};
+		var myRestaurant = {lat: 45.255138, lng: 19.833949};
+		mapFax = new google.maps.Map(document.getElementById('map0'), {
+			center: myFax,
+			zoom: 13
+		});
+		var markerFax = new google.maps.Marker({
+			position: myFax,
+			map: mapFax,
+			title: "Fakultet tehnickih nauka"
+		});
+		var contentStringFax =  '<div id="content" style="width:300px;height:200px;"></div>';
+		var infoFax = new google.maps.InfoWindow({
+			content: contentStringFax
+		});
+		markerFax.addListener('click', function(){
+			infoFax.open(mapFax, markerFax);
+		});
+		var panoramaFax;
+		google.maps.event.addListener(infoFax,'domready',function(){
+			panoramaFax = new google.maps.StreetViewPanorama(document.getElementById("content"),{
+				pov:{
+					heading: 90,
+					pitch: -10
+				},
+				linksControl: false
+			});
+			panoramaFax.bindTo("position",markerFax);
+			panoramaFax.setVisible(true);
+		});	
+		mapHome = new google.maps.Map(document.getElementById('map1'), {
+			center: myHome,
+			zoom: 13
+		});
+		var markerHome = new google.maps.Marker({
+			position: myHome,
+			map: mapHome,
+			title: "Moja zgrada"
+		});
+		var contentStringHome =  '<div id="content1" style="width:300px;height:200px;"></div>';
+		var infoHome= new google.maps.InfoWindow({
+			content: contentStringHome
+		});
+		markerHome.addListener('click', function(){
+			infoHome.open(mapHome, markerHome);
+		});
+		var panoramaHome;
+		google.maps.event.addListener(infoHome,'domready',function(){
+			panoramaHome= new google.maps.StreetViewPanorama(document.getElementById("content1"),{
+				pov:{
+					heading: 90,
+					pitch: -10
+				},
+				linksControl: false
+			});
+			panoramaHome.bindTo("position",markerHome);
+			panoramaHome.setVisible(true);
+		});
+		mapRestaurant = new google.maps.Map(document.getElementById('map2'), {
+			center: myRestaurant,
+			zoom: 13
+		});
+		var markerRestaurant = new google.maps.Marker({
+			position: myRestaurant,
+			map: mapRestaurant,
+			title: "Moja omiljena klopa"
+		});
+		var contentStringRestaurant =  '<div id="content2" style="width:300px;height:200px;"></div>';
+		var infoRestaurant = new google.maps.InfoWindow({
+			content: contentStringRestaurant
+		});
+		markerRestaurant.addListener('click', function(){
+			infoRestaurant.open(mapRestaurant, markerRestaurant);
+		});
+		var panoramaRestaurant;
+		google.maps.event.addListener(infoRestaurant,'domready',function(){
+			panoramaRestaurant = new google.maps.StreetViewPanorama(document.getElementById("content2"),{
+				pov:{
+					heading: 90,
+					pitch: -10
+				},
+				linksControl: false
+			});
+			panoramaRestaurant.bindTo("position",markerRestaurant);
+			panoramaRestaurant.setVisible(true);
+		});
+	}
+</script>
+<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTWSFS7wd-1tJ5Kbwdjl0LzHPX55uMhZ8&callback=myMap">
+</script> 
+</body>
+</html>
